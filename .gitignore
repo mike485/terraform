@@ -1,0 +1,8 @@
+# Local terraform directories
+.terraform/
+*.ids
+*.json
+
+# Identity token for automated auth
+.terraform.lock.hcl
+
