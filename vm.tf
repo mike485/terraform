@@ -1,5 +1,5 @@
 resource "google_compute_instance" "terraform-vm" {
-  name         = "managenet-vm-3"
+  name         = "managenet-vm-4"
   machine_type = "e2-micro"
   zone         = "us-central1-a"
 
