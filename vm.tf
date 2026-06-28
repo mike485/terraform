@@ -10,12 +10,7 @@ resource "google_compute_instance" "terraform-vm" {
       image = "debian-cloud/debian-12"
     }
   }
-/*
-  // Local SSD disk
-  scratch_disk {
-    interface = "NVME"
-  }
-*/
+
   network_interface {
     network = "managementnet"
     subnetwork = "managesubnet-1"
@@ -24,6 +19,23 @@ resource "google_compute_instance" "terraform-vm" {
 //    }
   }
 }
+resource "google_compute_firewall" "rules" {
+  name    = "managenet-allow-ssh-icmp-rdp"
+  network = "managementnet"
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "3389"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+  priority = 1000
+  direction = "INGRESS"
+}
+
 /*
   metadata = {
     foo = "bar"
@@ -35,4 +47,9 @@ resource "google_compute_instance" "terraform-vm" {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email  = google_service_account.default.email
     scopes = ["cloud-platform"]
+
+   // Local SSD disk
+  scratch_disk {
+    interface = "NVME"
+  }  
 */
